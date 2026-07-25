@@ -1,0 +1,65 @@
+{
+  "schema": "cadence-site-development-summary-v1",
+  "date": "2026-07-25",
+  "role": "preoutcome_method_development_only",
+  "eligibleForBiologicalHeadline": false,
+  "source": {
+    "path": "results/releases/development/development_record.json",
+    "sha256": "ceda3d8fad663679223665fbed63ea277b43904ece9be1b29a24695d0155481e"
+  },
+  "teacher": {
+    "profile": "smoke",
+    "worlds": 10,
+    "metrics": [
+      {
+        "id": "behavior",
+        "label": "Behavior causal skill",
+        "mean": 0.5019164683281488,
+        "positive": 10,
+        "n": 10
+      },
+      {
+        "id": "neural-condition",
+        "label": "Neural condition skill",
+        "mean": 0.0017299396354821805,
+        "positive": 8,
+        "n": 10
+      },
+      {
+        "id": "neural-pathwise",
+        "label": "Neural pathwise skill",
+        "mean": 0.008779850192009154,
+        "positive": 7,
+        "n": 10
+      },
+      {
+        "id": "latent",
+        "label": "Latent effect skill",
+        "mean": 0.12704669622773196,
+        "positive": 7,
+        "n": 10
+      }
+    ],
+    "outsideNormalRolloutRangeMean": 0.09787037037037036
+  },
+  "allen": {
+    "profile": "full",
+    "developmentMice": 4,
+    "metrics": [
+      {
+        "id": "neural",
+        "label": "Neural causal skill",
+        "mean": -0.00008625274514249876,
+        "positive": 1,
+        "n": 4
+      },
+      {
+        "id": "running",
+        "label": "Running causal skill",
+        "mean": -0.0004914342525869014,
+        "positive": 2,
+        "n": 4
+      }
+    ]
+  }
+}

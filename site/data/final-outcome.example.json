@@ -1,0 +1,40 @@
+{
+  "schema": "cadence-site-final-outcome-v1",
+  "release": {
+    "label": "Frozen outcome release",
+    "generatedAt": "YYYY-MM-DD",
+    "protocolVersion": "1.0.0",
+    "sourceSummarySha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+  },
+  "headline": {
+    "status": "NOT_EVALUATED",
+    "summary": "Short, declared derivative of the immutable reporter summary."
+  },
+  "datasets": [
+    {
+      "id": "allen",
+      "label": "Allen image omissions",
+      "evidentialRole": "Primary biological evaluation",
+      "status": "NOT_EVALUATED",
+      "replication": "28 evaluation mice",
+      "summary": "Short dataset-level conclusion.",
+      "endpoints": [
+        {
+          "label": "Neural causal skill",
+          "value": null,
+          "ciLow": null,
+          "ciHigh": null,
+          "status": "NOT_EVALUATED"
+        }
+      ],
+      "gates": [
+        {
+          "number": 1,
+          "title": "Observed randomized effect",
+          "status": "NOT_EVALUATED",
+          "evidence": "Declared presentation summary derived from canonical gate details."
+        }
+      ]
+    }
+  ]
+}
