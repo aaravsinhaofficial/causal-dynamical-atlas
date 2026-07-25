@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/home/ec2-user/causal-dynamical-atlas-frozen/scripts/run_allen_experiment.py", line 139, in <module>
+    main()
+  File "/home/ec2-user/causal-dynamical-atlas-frozen/scripts/run_allen_experiment.py", line 108, in main
+    result = run_allen_experiment(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ec2-user/causal-dynamical-atlas-frozen/src/cadence/experiments/allen.py", line 5274, in run_allen_experiment
+    return _predict_allen_stage(**common)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ec2-user/causal-dynamical-atlas-frozen/src/cadence/experiments/allen.py", line 4587, in _predict_allen_stage
+    selection_result = _fit_stage(
+                       ^^^^^^^^^^^
+  File "/home/ec2-user/causal-dynamical-atlas-frozen/src/cadence/experiments/allen.py", line 1248, in _fit_stage
+    raise ProtocolViolation("donor-delta projection failed after optimizer step")
+cadence.protocol.ProtocolViolation: donor-delta projection failed after optimizer step

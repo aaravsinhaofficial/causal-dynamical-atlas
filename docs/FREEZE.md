@@ -85,9 +85,10 @@ falsification artifacts remain `NOT_EVALUATED` and prevent a headline pass.
 
 ## Frozen-run recovery records
 
-The pre-retry decision and fail-closed state audit for the ICMS92 numerical
-projection exception are recorded in
-[`ICMS92_RECOVERY.md`](ICMS92_RECOVERY.md). The record fixes a ceiling of one
-identical-device retry before that retry is launched; it forbids
-retry-until-pass, device hopping, outcome-dependent changes, and untagged
-numerical amendments.
+Pre-retry decisions and fail-closed state audits for numerical projection
+exceptions are recorded in
+[`ICMS92_RECOVERY.md`](ICMS92_RECOVERY.md) and
+[`ALLEN_FOLD4_RECOVERY.md`](ALLEN_FOLD4_RECOVERY.md). Each record fixes a
+ceiling of one identical-device retry before that retry is launched; they
+forbid retry-until-pass, device hopping, outcome-dependent changes, and
+untagged numerical amendments.
