@@ -82,3 +82,13 @@ headline hypothesis. Biological evaluation outcomes cannot be used to revise
 the method. Version 1 is explicitly fail-closed: it can establish failure of
 the core predictive gates, but missing positive-claim uncertainty and
 falsification artifacts remain `NOT_EVALUATED` and prevent a headline pass.
+
+## Frozen-run recovery records
+
+Pre-retry decisions and fail-closed state audits for numerical projection
+exceptions are recorded in
+[`ICMS92_RECOVERY.md`](ICMS92_RECOVERY.md) and
+[`ALLEN_FOLD4_RECOVERY.md`](ALLEN_FOLD4_RECOVERY.md). Each record fixes a
+ceiling of one identical-device retry before that retry is launched; they
+forbid retry-until-pass, device hopping, outcome-dependent changes, and
+untagged numerical amendments.
