@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/home/ec2-user/causal-dynamical-atlas-frozen/scripts/run_icms_experiment.py", line 155, in <module>
+    main()
+  File "/home/ec2-user/causal-dynamical-atlas-frozen/scripts/run_icms_experiment.py", line 122, in main
+    result = predict_fold(
+             ^^^^^^^^^^^^^
+  File "/home/ec2-user/causal-dynamical-atlas-frozen/src/cadence/experiments/icms.py", line 3542, in predict_fold
+    model, audit = _fit_one_model(
+                   ^^^^^^^^^^^^^^^
+  File "/home/ec2-user/causal-dynamical-atlas-frozen/src/cadence/experiments/icms.py", line 2840, in _fit_one_model
+    intervention_selection, selection_delta_audit = _fit_intervention_selection(
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ec2-user/causal-dynamical-atlas-frozen/src/cadence/experiments/icms.py", line 2504, in _fit_intervention_selection
+    raise ProtocolViolation("training donor deltas failed exact post-step projection")
+cadence.protocol.ProtocolViolation: training donor deltas failed exact post-step projection
