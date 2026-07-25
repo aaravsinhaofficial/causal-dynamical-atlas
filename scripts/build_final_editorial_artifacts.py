@@ -381,6 +381,16 @@ def _validate_analysis(analysis_value: Any, spec: AnalysisSpec) -> None:
         raise ValueError(f"{spec.analysis_id}.cohort_completeness.complete must be boolean")
     if not isinstance(completeness.get("gates_evaluable"), bool):
         raise ValueError(f"{spec.analysis_id}.cohort_completeness.gates_evaluable must be boolean")
+    observed, expected = _cohort_unit_counts(analysis, spec.analysis_id)
+    if completeness["complete"] and observed != expected:
+        raise ValueError(
+            f"{spec.analysis_id} declares a complete cohort with "
+            f"{observed} observed units but {expected} expected"
+        )
+    if not completeness["complete"] and completeness["gates_evaluable"]:
+        raise ValueError(
+            f"{spec.analysis_id} is incomplete but declares gates_evaluable=true"
+        )
 
     _validate_method_summaries(
         analysis.get("method_summaries"),
@@ -418,6 +428,18 @@ def _validate_analysis(analysis_value: Any, spec: AnalysisSpec) -> None:
         _require_mapping(gate.get("details"), f"{label}.details")
     if tuple(observed_ids) != GATE_IDS:
         raise ValueError(f"{spec.analysis_id}.conjunction.gates must contain ordered gate IDs 1-8")
+    if not completeness["complete"]:
+        # This authenticates a frozen ``cadence.reporting.v1`` producer
+        # invariant: _conjunction short-circuits every ineligible cohort to NE.
+        # Rendering still copies each accepted status verbatim below.
+        gate_statuses = [str(gate["status"]) for gate in gates]
+        if conjunction["overall_status"] != "NOT_EVALUATED" or set(gate_statuses) != {
+            "NOT_EVALUATED"
+        }:
+            raise ValueError(
+                f"{spec.analysis_id} is incomplete but its conjunction gates are "
+                "not uniformly NOT_EVALUATED"
+            )
 
     primary = _require_mapping(
         analysis.get("primary_summaries"), f"{spec.analysis_id}.primary_summaries"
@@ -428,6 +450,101 @@ def _validate_analysis(analysis_value: Any, spec: AnalysisSpec) -> None:
                 raise ValueError(
                     f"{spec.analysis_id} is gate-evaluable but lacks primary_summaries.{name}"
                 )
+
+
+def _cohort_unit_counts(
+    analysis: Mapping[str, Any],
+    analysis_id: str,
+) -> tuple[int, int]:
+    """Return validated observed/expected independent-unit counts.
+
+    ``cohort_completeness.expected_units`` is the reporter-native field.
+    ``expected_n`` is retained as a validated fallback for older complete
+    reports and must agree whenever both fields are populated.
+    """
+
+    observed = _require_nonnegative_int(
+        analysis.get("n_independent_units"),
+        f"{analysis_id}.n_independent_units",
+    )
+    completeness = _require_mapping(
+        analysis.get("cohort_completeness"),
+        f"{analysis_id}.cohort_completeness",
+    )
+
+    observed_proposed_value = completeness.get("observed_proposed_units")
+    if observed_proposed_value is not None:
+        observed_proposed = _require_nonnegative_int(
+            observed_proposed_value,
+            f"{analysis_id}.cohort_completeness.observed_proposed_units",
+        )
+        if observed_proposed != observed:
+            raise ValueError(
+                f"{analysis_id}.cohort_completeness.observed_proposed_units "
+                "must match n_independent_units"
+            )
+
+    completeness_expected: int | None = None
+    if completeness.get("expected_units") is not None:
+        completeness_expected = _require_nonnegative_int(
+            completeness["expected_units"],
+            f"{analysis_id}.cohort_completeness.expected_units",
+        )
+
+    expected_n: int | None = None
+    if analysis.get("expected_n") is not None:
+        expected_n = _require_nonnegative_int(
+            analysis["expected_n"],
+            f"{analysis_id}.expected_n",
+        )
+
+    if completeness_expected is None and expected_n is None:
+        raise ValueError(
+            f"{analysis_id} must provide cohort_completeness.expected_units "
+            "or expected_n"
+        )
+    if (
+        completeness_expected is not None
+        and expected_n is not None
+        and completeness_expected != expected_n
+    ):
+        raise ValueError(
+            f"{analysis_id}.cohort_completeness.expected_units does not match expected_n"
+        )
+    expected = (
+        completeness_expected if completeness_expected is not None else int(expected_n)
+    )
+    if expected < observed:
+        raise ValueError(
+            f"{analysis_id} has {observed} observed independent units but "
+            f"only {expected} expected"
+        )
+    return observed, expected
+
+
+def _cohort_complete(analysis: Mapping[str, Any], analysis_id: str) -> bool:
+    completeness = _require_mapping(
+        analysis["cohort_completeness"],
+        f"{analysis_id}.cohort_completeness",
+    )
+    complete = completeness["complete"]
+    if not isinstance(complete, bool):
+        raise ValueError(f"{analysis_id}.cohort_completeness.complete must be boolean")
+    return complete
+
+
+def _editorial_incomplete(analysis: Mapping[str, Any], analysis_id: str) -> bool:
+    """Identify cohorts that should carry an editorial incomplete warning.
+
+    ICMS83's absolute-only cohort is intentionally non-gate-evaluable and the
+    reporter therefore never calls it ``complete``. It is not a partial cohort
+    when its sole expected unit is present, so preserve its descriptive label.
+    """
+
+    if _cohort_complete(analysis, analysis_id):
+        return False
+    observed, expected = _cohort_unit_counts(analysis, analysis_id)
+    return analysis_id != "icms:absolute_only" or observed < expected
 
 
 def _validate_report(report: Mapping[str, Any]) -> None:
@@ -477,8 +594,22 @@ def _gate(analysis: Mapping[str, Any], gate_id: int) -> Mapping[str, Any]:
 
 
 def _replication_text(analysis: Mapping[str, Any], spec: AnalysisSpec) -> str:
-    independent = int(analysis["n_independent_units"])
+    independent, expected = _cohort_unit_counts(analysis, spec.analysis_id)
     nested = int(analysis["n_nested_target_units"])
+    if _editorial_incomplete(analysis, spec.analysis_id):
+        prefix = (
+            f"{independent} observed of {expected}; incomplete; "
+            "gates NOT_EVALUATED"
+        )
+        if spec.replication_unit == "teacher_world":
+            world_word = "world" if independent == 1 else "worlds"
+            target_word = "target unit" if nested == 1 else "target units"
+            return (
+                f"{prefix}; independent teacher {world_word}; "
+                f"{nested} nested {target_word}"
+            )
+        animal_word = "animal" if independent == 1 else "animals"
+        return f"{prefix}; independent target {animal_word}"
     if spec.replication_unit == "teacher_world":
         world_word = "world" if independent == 1 else "worlds"
         target_word = "target unit" if nested == 1 else "target units"
@@ -534,6 +665,30 @@ def _dataset_endpoints(
     spec: AnalysisSpec,
 ) -> list[dict[str, Any]]:
     if spec.analysis_id in {"allen_vbo:locked", "icms:randomized_n5"}:
+        if not _cohort_complete(analysis, spec.analysis_id):
+            behavior_label = (
+                "Running-speed causal skill"
+                if spec.analysis_id == "allen_vbo:locked"
+                else "Primary behavior causal skill"
+            )
+            note = (
+                "Incomplete cohort: primary and gate-linked summaries are withheld; "
+                "partial method summaries are descriptive only."
+            )
+            return [
+                _endpoint(
+                    "Neural causal skill",
+                    None,
+                    status=str(_gate(analysis, 2)["status"]),
+                    note=note,
+                ),
+                _endpoint(
+                    behavior_label,
+                    None,
+                    status=str(_gate(analysis, 3)["status"]),
+                    note=note,
+                ),
+            ]
         primary = _require_mapping(
             analysis["primary_summaries"], f"{spec.analysis_id}.primary_summaries"
         )
@@ -603,7 +758,6 @@ def build_site_payload(
     allen_status = str(
         _require_mapping(allen["conjunction"], "allen conjunction")["overall_status"]
     )
-    allen_units = int(allen["n_independent_units"])
     datasets: list[dict[str, Any]] = []
     for spec in ANALYSIS_SPECS:
         analysis = _analysis(report, spec.analysis_id)
@@ -636,8 +790,8 @@ def build_site_payload(
             "status": allen_status,
             "summary": (
                 "Allen primary biological evaluation reporter status: "
-                f"{allen_status}; {allen_units} independent target "
-                f"{'animal' if allen_units == 1 else 'animals'}."
+                f"{allen_status}; "
+                f"{_replication_text(allen, SPECS_BY_ID['allen_vbo:locked'])}."
             ),
         },
         "datasets": datasets,
@@ -739,7 +893,9 @@ def render_unit_skill_figure(report: Mapping[str, Any], directory: Path) -> None
             values = _independent_skill_values(analysis, analysis_id, domain)
             values_by_panel[(analysis_id, domain)] = values
             limits.extend(value for _, value in values)
-            if analysis_id != "teacher:locked":
+            if analysis_id != "teacher:locked" and _cohort_complete(
+                analysis, analysis_id
+            ):
                 summary = _summary_or_none(analysis, "primary_summaries", f"{domain}_skill")
                 limits.extend(value for value in _summary_triplet(summary) if value is not None)
 
@@ -776,6 +932,14 @@ def render_unit_skill_figure(report: Mapping[str, Any], directory: Path) -> None
             y=0.995,
         )
         for row_index, (analysis_id, row_label, color) in enumerate(rows):
+            analysis = _analysis(report, analysis_id)
+            observed, expected = _cohort_unit_counts(analysis, analysis_id)
+            complete = _cohort_complete(analysis, analysis_id)
+            if _editorial_incomplete(analysis, analysis_id):
+                row_label = (
+                    f"{row_label}\n{observed} observed of {expected}\n"
+                    "incomplete; gates NOT_EVALUATED"
+                )
             label_ax = label_axes[row_index]
             label_ax.axis("off")
             label_ax.text(
@@ -790,8 +954,6 @@ def render_unit_skill_figure(report: Mapping[str, Any], directory: Path) -> None
                 color="#2D343C",
                 linespacing=1.3,
             )
-            analysis = _analysis(report, analysis_id)
-            expected = int(analysis["n_independent_units"])
             for column_index, (domain, column_label) in enumerate(domains):
                 ax = axes[row_index][column_index]
                 values = values_by_panel[(analysis_id, domain)]
@@ -809,7 +971,7 @@ def render_unit_skill_figure(report: Mapping[str, Any], directory: Path) -> None
                         alpha=0.9,
                         zorder=3,
                     )
-                if analysis_id != "teacher:locked":
+                if analysis_id != "teacher:locked" and complete:
                     summary = _summary_or_none(analysis, "primary_summaries", f"{domain}_skill")
                     estimate, lower, upper = _summary_triplet(summary)
                     if estimate is not None:
@@ -857,11 +1019,22 @@ def render_unit_skill_figure(report: Mapping[str, Any], directory: Path) -> None
                             va="center",
                             color="#59616B",
                         )
-                else:
+                elif analysis_id == "teacher:locked":
                     ax.text(
                         0.97,
                         0.05,
                         "descriptive only;\nno gate-linked CI",
+                        transform=ax.transAxes,
+                        ha="right",
+                        va="bottom",
+                        color="#59616B",
+                        fontsize=7,
+                    )
+                else:
+                    ax.text(
+                        0.97,
+                        0.05,
+                        "incomplete cohort;\nprimary CI withheld",
                         transform=ax.transAxes,
                         ha="right",
                         va="bottom",
@@ -892,7 +1065,11 @@ def render_unit_skill_figure(report: Mapping[str, Any], directory: Path) -> None
                 ax.set_xticklabels(
                     [
                         "worlds" if analysis_id == "teacher:locked" else "target animals",
-                        "mean + 95% CI" if analysis_id != "teacher:locked" else "",
+                        (
+                            "mean + 95% CI"
+                            if analysis_id != "teacher:locked" and complete
+                            else ""
+                        ),
                     ]
                 )
                 if row_index == 0:
@@ -961,8 +1138,16 @@ def render_gate_matrix_figure(report: Mapping[str, Any], directory: Path) -> Non
     )
     columns = [*GATE_IDS, "Overall"]
     status_rows: list[list[str]] = []
-    for analysis_id, _ in rows:
+    row_labels: list[str] = []
+    for analysis_id, label in rows:
         analysis = _analysis(report, analysis_id)
+        observed, expected = _cohort_unit_counts(analysis, analysis_id)
+        if _editorial_incomplete(analysis, analysis_id):
+            label = (
+                f"{label} · {observed} observed of {expected}; "
+                "incomplete; gates NOT_EVALUATED"
+            )
+        row_labels.append(label)
         conjunction = _require_mapping(analysis["conjunction"], f"{analysis_id}.conjunction")
         statuses = [str(_gate(analysis, gate_id)["status"]) for gate_id in GATE_IDS]
         statuses.append(str(conjunction["overall_status"]))
@@ -995,7 +1180,7 @@ def render_gate_matrix_figure(report: Mapping[str, Any], directory: Path) -> Non
             [f"Gate {value}" if isinstance(value, int) else value for value in columns]
         )
         ax.set_yticks(range(len(rows)))
-        ax.set_yticklabels([label for _, label in rows])
+        ax.set_yticklabels(row_labels)
         ax.tick_params(axis="both", length=0)
         for row_index, statuses in enumerate(status_rows):
             for column_index, status in enumerate(statuses):
@@ -1094,6 +1279,11 @@ def _paper_endpoint_summaries(
     analysis_id: str,
 ) -> tuple[tuple[Mapping[str, Any] | None, str], tuple[Mapping[str, Any] | None, str]]:
     if analysis_id in {"allen_vbo:locked", "icms:randomized_n5"}:
+        if not _cohort_complete(analysis, analysis_id):
+            return (
+                (None, "withheld: incomplete cohort; not gate evidence"),
+                (None, "withheld: incomplete cohort; not gate evidence"),
+            )
         return (
             (_summary_or_none(analysis, "primary_summaries", "neural_skill"), "causal skill"),
             (

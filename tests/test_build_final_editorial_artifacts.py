@@ -354,6 +354,33 @@ def _synthetic_summary() -> dict[str, Any]:
     }
 
 
+def _with_partial_allen(
+    summary: dict[str, Any],
+    *,
+    expected: int = 28,
+) -> dict[str, Any]:
+    analysis = summary["analyses"]["allen_vbo:locked"]
+    analysis["target_rows"] = analysis["target_rows"][:1]
+    analysis["inference_rows"] = analysis["inference_rows"][:1]
+    analysis["n_independent_units"] = 1
+    analysis["n_nested_target_units"] = 1
+    analysis["expected_n"] = expected
+    analysis["cohort_completeness"] = {
+        "complete": False,
+        "gates_evaluable": False,
+        "observed_proposed_units": 1,
+        "expected_units": expected,
+    }
+    # The frozen reporter exports partial method summaries for transparency but
+    # deliberately withholds primary summaries when the cohort is incomplete.
+    analysis["primary_summaries"] = {}
+    analysis["conjunction"] = _gates(
+        ["NOT_EVALUATED"] * 8,
+        "NOT_EVALUATED",
+    )
+    return summary
+
+
 def _write_authenticated_report(
     root: Path,
     summary: dict[str, Any],
@@ -457,6 +484,147 @@ def test_builder_maps_authenticated_synthetic_report_without_recomputing_status(
         image = mpimg.imread(paths[key])
         assert image.shape[0] >= 800
         assert image.shape[1] >= 1200
+
+
+def test_builder_labels_partial_cohort_and_withholds_gate_linked_summaries(
+    builder: ModuleType,
+    tmp_path: Path,
+) -> None:
+    summary = _with_partial_allen(_synthetic_summary())
+    # This partial descriptive value must never become a primary or gate result.
+    assert (
+        summary["analyses"]["allen_vbo:locked"]["method_summaries"]["proposed"][
+            "neural_causal_skill"
+        ]["estimate"]
+        == 0.91
+    )
+    summary_path, completion_path, _ = _write_authenticated_report(
+        tmp_path / "report",
+        summary,
+    )
+    paths = _build(builder, tmp_path / "out", summary_path, completion_path)
+
+    site = json.loads(paths["site"].read_text(encoding="utf-8"))
+    by_id = {dataset["id"]: dataset for dataset in site["datasets"]}
+    allen = by_id["allen"]
+    expected_label = (
+        "1 observed of 28; incomplete; gates NOT_EVALUATED; "
+        "independent target animal"
+    )
+    assert allen["status"] == "NOT_EVALUATED"
+    assert allen["replication"] == expected_label
+    assert expected_label in allen["summary"]
+    assert site["headline"]["status"] == "NOT_EVALUATED"
+    assert expected_label in site["headline"]["summary"]
+    assert allen["endpoints"] == [
+        {
+            "label": "Neural causal skill",
+            "value": None,
+            "ciLow": None,
+            "ciHigh": None,
+            "status": "NOT_EVALUATED",
+            "note": (
+                "Incomplete cohort: primary and gate-linked summaries are withheld; "
+                "partial method summaries are descriptive only."
+            ),
+        },
+        {
+            "label": "Running-speed causal skill",
+            "value": None,
+            "ciLow": None,
+            "ciHigh": None,
+            "status": "NOT_EVALUATED",
+            "note": (
+                "Incomplete cohort: primary and gate-linked summaries are withheld; "
+                "partial method summaries are descriptive only."
+            ),
+        },
+    ]
+    assert {gate["status"] for gate in allen["gates"]} == {"NOT_EVALUATED"}
+
+    paper = paths["paper_include"].read_text(encoding="utf-8")
+    assert expected_label.replace("_", r"\_") in paper
+    assert "withheld: incomplete cohort; not gate evidence" in paper
+    assert "0.91" not in paper
+
+
+def test_partial_endpoint_badges_copy_the_reporter_gate_statuses(
+    builder: ModuleType,
+) -> None:
+    report = _with_partial_allen(_synthetic_summary())
+    analysis = report["analyses"]["allen_vbo:locked"]
+    # Exercise the mapping directly with sentinels. The authenticated v1 report
+    # validator separately enforces its frozen all-NE incomplete-cohort invariant.
+    analysis["conjunction"]["gates"][1]["status"] = "FAIL"
+    analysis["conjunction"]["gates"][2]["status"] = "PASS"
+
+    endpoints = builder._dataset_endpoints(
+        analysis,
+        builder.SPECS_BY_ID["allen_vbo:locked"],
+    )
+
+    assert endpoints[0]["status"] == analysis["conjunction"]["gates"][1]["status"]
+    assert endpoints[1]["status"] == analysis["conjunction"]["gates"][2]["status"]
+    assert endpoints[0]["value"] is None
+    assert endpoints[1]["value"] is None
+
+
+def test_partial_figure_labels_use_reporter_expected_denominator(
+    builder: ModuleType,
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    report = _with_partial_allen(_synthetic_summary())
+    observed_labels: list[str] = []
+    real_text = builder.matplotlib.axes.Axes.text
+    real_set_yticklabels = builder.matplotlib.axes.Axes.set_yticklabels
+
+    def capture_text(axis: Any, x: Any, y: Any, text: Any, *args: Any, **kwargs: Any) -> Any:
+        observed_labels.append(str(text))
+        return real_text(axis, x, y, text, *args, **kwargs)
+
+    def capture_yticklabels(
+        axis: Any,
+        labels: Any,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Any:
+        observed_labels.extend(str(label) for label in labels)
+        return real_set_yticklabels(axis, labels, *args, **kwargs)
+
+    monkeypatch.setattr(builder.matplotlib.axes.Axes, "text", capture_text)
+    monkeypatch.setattr(
+        builder.matplotlib.axes.Axes,
+        "set_yticklabels",
+        capture_yticklabels,
+    )
+    builder.render_unit_skill_figure(report, tmp_path)
+    builder.render_gate_matrix_figure(report, tmp_path)
+
+    assert any(
+        "1 observed of 28\nincomplete; gates NOT_EVALUATED" in label
+        for label in observed_labels
+    )
+    assert any(
+        "1 observed of 28; incomplete; gates NOT_EVALUATED" in label
+        for label in observed_labels
+    )
+
+
+def test_absolute_only_complete_observation_keeps_descriptive_replication_label(
+    builder: ModuleType,
+) -> None:
+    report = _synthetic_summary()
+    analysis = report["analyses"]["icms:absolute_only"]
+    analysis["cohort_completeness"] = {
+        "complete": False,
+        "gates_evaluable": False,
+        "observed_proposed_units": 1,
+        "expected_units": 1,
+    }
+    spec = builder.SPECS_BY_ID["icms:absolute_only"]
+
+    assert builder._replication_text(analysis, spec) == "1 independent target animal"
 
 
 def test_builder_is_byte_reproducible_for_identical_inputs(
@@ -643,6 +811,24 @@ def test_builder_fails_closed_on_sidecar_and_completion_digest_mismatches(
                 {"primary_summaries": {}}
             ),
             "gate-evaluable but lacks",
+        ),
+        (
+            lambda summary: summary["analyses"]["allen_vbo:locked"].update(
+                {"expected_n": 1}
+            ),
+            "only 1 expected",
+        ),
+        (
+            lambda summary: summary["analyses"]["allen_vbo:locked"][
+                "cohort_completeness"
+            ].update({"expected_units": 3}),
+            "does not match expected_n",
+        ),
+        (
+            lambda summary: _with_partial_allen(summary)["analyses"][
+                "allen_vbo:locked"
+            ]["conjunction"].update({"overall_status": "FAIL"}),
+            "not uniformly NOT_EVALUATED",
         ),
     ],
 )
