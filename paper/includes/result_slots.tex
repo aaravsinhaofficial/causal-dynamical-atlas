@@ -1,0 +1,20 @@
+% Outcome-free manuscript helpers. These boxes are intentionally conspicuous:
+% they must never be interpreted as an empirical result.
+\newcommand{\NotEvaluated}{\textsc{not evaluated}}
+
+\newcommand{\ProspectiveResultSlot}[2]{%
+  \begin{center}
+    \fcolorbox{BurntOrange}{BurntOrange!7}{%
+      \parbox{0.92\linewidth}{%
+        \textbf{\textcolor{BurntOrange}{Prospective result slot --- not
+        populated.}} \textbf{#1}\par\smallskip
+        #2\par\smallskip
+        \emph{This box specifies planned reporting content. It contains no
+        evaluation outcome and makes no performance claim. It may be replaced
+        only from the immutable post-freeze aggregate and, for
+        outcome-sequestered biological data, only after authorized unsealing,
+        with failed and unevaluated gates retained verbatim.}%
+      }%
+    }
+  \end{center}
+}

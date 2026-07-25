@@ -1,0 +1,340 @@
+{
+  "animal_count": 32,
+  "animals": [
+    {
+      "arrays": "data/processed/allen_vbo/mouse_423606/windows.npz",
+      "arrays_sha256": "b38403f5009353160f4548bec7c878835d4dc2dec106321030f527e69e61dcc4",
+      "cells": 436,
+      "mouse_id": "423606",
+      "normal_windows": 2368,
+      "omission_windows": 116,
+      "ophys_experiment_id": 822024770,
+      "provenance": "data/processed/allen_vbo/mouse_423606/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_425496/windows.npz",
+      "arrays_sha256": "7967ad281fbe78ee82262a8088b986a1a361ba8725590f2c5bfc81901902120b",
+      "cells": 251,
+      "mouse_id": "425496",
+      "normal_windows": 2416,
+      "omission_windows": 136,
+      "ophys_experiment_id": 806455766,
+      "provenance": "data/processed/allen_vbo/mouse_425496/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_431023/windows.npz",
+      "arrays_sha256": "de61ead45caa7371613dcefc5c05bee11f32a366eb1e8ec49ba889aa8f4ad9ac",
+      "cells": 167,
+      "mouse_id": "431023",
+      "normal_windows": 2062,
+      "omission_windows": 114,
+      "ophys_experiment_id": 822647135,
+      "provenance": "data/processed/allen_vbo/mouse_431023/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_442709/windows.npz",
+      "arrays_sha256": "ea930100567ed7a0b803a23a397c4cf8d4da8a5b933256eb05c983d1f22bc525",
+      "cells": 429,
+      "mouse_id": "442709",
+      "normal_windows": 2485,
+      "omission_windows": 149,
+      "ophys_experiment_id": 842975542,
+      "provenance": "data/processed/allen_vbo/mouse_442709/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_447663/windows.npz",
+      "arrays_sha256": "1957656a73a628ecf946181829509b8a45101d1d28a0b856ed60a3d1476badd0",
+      "cells": 63,
+      "mouse_id": "447663",
+      "normal_windows": 2057,
+      "omission_windows": 147,
+      "ophys_experiment_id": 857658471,
+      "provenance": "data/processed/allen_vbo/mouse_447663/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_448900/windows.npz",
+      "arrays_sha256": "4757aa4be92fcfb7119ff242f7132e0bf12fc6c16df1e020b2b208c9127e1388",
+      "cells": 557,
+      "mouse_id": "448900",
+      "normal_windows": 1733,
+      "omission_windows": 149,
+      "ophys_experiment_id": 873154932,
+      "provenance": "data/processed/allen_vbo/mouse_448900/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_449441/windows.npz",
+      "arrays_sha256": "a3295670e50b758c77b54ae23fa4307e85591e65fd11d7fd67f194fc9bcdadd3",
+      "cells": 415,
+      "mouse_id": "449441",
+      "normal_windows": 1984,
+      "omission_windows": 136,
+      "ophys_experiment_id": 879332693,
+      "provenance": "data/processed/allen_vbo/mouse_449441/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_450471/windows.npz",
+      "arrays_sha256": "83fbb6c41a56be75a7ffc9218147c05663a4bfc7cfe0244ac3f5fa23d0fac2d8",
+      "cells": 65,
+      "mouse_id": "450471",
+      "normal_windows": 2219,
+      "omission_windows": 136,
+      "ophys_experiment_id": 871155338,
+      "provenance": "data/processed/allen_vbo/mouse_450471/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_453911/windows.npz",
+      "arrays_sha256": "70323a5fe8ef85366c2cbcc3525e3a5a9dc2579f6c3f70ea0466f77777163885",
+      "cells": 110,
+      "mouse_id": "453911",
+      "normal_windows": 1920,
+      "omission_windows": 153,
+      "ophys_experiment_id": 904363923,
+      "provenance": "data/processed/allen_vbo/mouse_453911/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_453913/windows.npz",
+      "arrays_sha256": "58c895b36cbb90997812dc7e83bc10bf3d2ac0d7e02e158883d0da826efc79af",
+      "cells": 85,
+      "mouse_id": "453913",
+      "normal_windows": 2741,
+      "omission_windows": 165,
+      "ophys_experiment_id": 888666698,
+      "provenance": "data/processed/allen_vbo/mouse_453913/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_456564/windows.npz",
+      "arrays_sha256": "102ae5df431010f9d394ffba4b5c4f9061bfa96051e53f64166897a267689b62",
+      "cells": 516,
+      "mouse_id": "456564",
+      "normal_windows": 1622,
+      "omission_windows": 158,
+      "ophys_experiment_id": 884221469,
+      "provenance": "data/processed/allen_vbo/mouse_456564/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_456915/windows.npz",
+      "arrays_sha256": "bc9034a61ad7c1a1e2eb2fb9a21bdf57d5756fbbb04c1a67a234bbde2c92fa16",
+      "cells": 265,
+      "mouse_id": "456915",
+      "normal_windows": 2130,
+      "omission_windows": 151,
+      "ophys_experiment_id": 903485708,
+      "provenance": "data/processed/allen_vbo/mouse_456915/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_456916/windows.npz",
+      "arrays_sha256": "bae94767787668224222b54d3c5726ac8a89a0dc83fd36d94620efc2a10e5e55",
+      "cells": 242,
+      "mouse_id": "456916",
+      "normal_windows": 2243,
+      "omission_windows": 146,
+      "ophys_experiment_id": 889771676,
+      "provenance": "data/processed/allen_vbo/mouse_456916/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_457766/windows.npz",
+      "arrays_sha256": "380877bb557212615a6a91d58a2c5906548e8b9f708dc29cf8be12e40753dd94",
+      "cells": 381,
+      "mouse_id": "457766",
+      "normal_windows": 1493,
+      "omission_windows": 158,
+      "ophys_experiment_id": 946476556,
+      "provenance": "data/processed/allen_vbo/mouse_457766/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_459773/windows.npz",
+      "arrays_sha256": "2f494c4aaf5525eebc92a26a5be547b59318dfe78eba55c446b2e89713236e6e",
+      "cells": 197,
+      "mouse_id": "459773",
+      "normal_windows": 1917,
+      "omission_windows": 149,
+      "ophys_experiment_id": 935440133,
+      "provenance": "data/processed/allen_vbo/mouse_459773/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_459777/windows.npz",
+      "arrays_sha256": "9a63a1eecd54ee1e8b756b6c07108d994638b969ce8534418ce1917fe28dc3e7",
+      "cells": 95,
+      "mouse_id": "459777",
+      "normal_windows": 1575,
+      "omission_windows": 157,
+      "ophys_experiment_id": 939327156,
+      "provenance": "data/processed/allen_vbo/mouse_459777/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_461946/windows.npz",
+      "arrays_sha256": "4de8cf7fae972c31280db85943edc7ec8b27ae59938742c04adf66920beaca79",
+      "cells": 111,
+      "mouse_id": "461946",
+      "normal_windows": 1994,
+      "omission_windows": 157,
+      "ophys_experiment_id": 899085531,
+      "provenance": "data/processed/allen_vbo/mouse_461946/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_472271/windows.npz",
+      "arrays_sha256": "1cf521560660520a4be2a00faa49beea0a5373f40febf18d2e62e445e4cd3e89",
+      "cells": 56,
+      "mouse_id": "472271",
+      "normal_windows": 1739,
+      "omission_windows": 163,
+      "ophys_experiment_id": 959389424,
+      "provenance": "data/processed/allen_vbo/mouse_472271/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_476067/windows.npz",
+      "arrays_sha256": "0bcf38f0bf097565880e6a4227c91294bd6b71b442c599b4d838914fc0cd4841",
+      "cells": 73,
+      "mouse_id": "476067",
+      "normal_windows": 1903,
+      "omission_windows": 154,
+      "ophys_experiment_id": 958435363,
+      "provenance": "data/processed/allen_vbo/mouse_476067/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_477052/windows.npz",
+      "arrays_sha256": "d2314f3456bd29ee7f3acfa62a07064fe5be1661e0e5ef5788652beabbe50390",
+      "cells": 94,
+      "mouse_id": "477052",
+      "normal_windows": 1970,
+      "omission_windows": 130,
+      "ophys_experiment_id": 964615767,
+      "provenance": "data/processed/allen_vbo/mouse_477052/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_479426/windows.npz",
+      "arrays_sha256": "35307b2107d5d553f0f125528471f980333be8bcef0d984d6e5f3a3cc4815453",
+      "cells": 511,
+      "mouse_id": "479426",
+      "normal_windows": 2132,
+      "omission_windows": 141,
+      "ophys_experiment_id": 972701564,
+      "provenance": "data/processed/allen_vbo/mouse_479426/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_484627/windows.npz",
+      "arrays_sha256": "3ecaa5df48dcb55718bb296a5fec83f0aa23bb27784ce929733f2b3348b9cafb",
+      "cells": 198,
+      "mouse_id": "484627",
+      "normal_windows": 2161,
+      "omission_windows": 145,
+      "ophys_experiment_id": 971813758,
+      "provenance": "data/processed/allen_vbo/mouse_484627/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_484631/windows.npz",
+      "arrays_sha256": "b8c940c18e47553427ffb731ad180e175ad78e333239154b6cf8bb4aae6a827e",
+      "cells": 91,
+      "mouse_id": "484631",
+      "normal_windows": 1993,
+      "omission_windows": 132,
+      "ophys_experiment_id": 992619908,
+      "provenance": "data/processed/allen_vbo/mouse_484631/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_491060/windows.npz",
+      "arrays_sha256": "75189e79071a7c784f40e565c73fdad9e0fd509649c11a9b20c367255ad0565e",
+      "cells": 221,
+      "mouse_id": "491060",
+      "normal_windows": 1931,
+      "omission_windows": 139,
+      "ophys_experiment_id": 993594789,
+      "provenance": "data/processed/allen_vbo/mouse_491060/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_512458/windows.npz",
+      "arrays_sha256": "c3d889138b427b050cb77aa77e1a27d41398e451612dfca968d47ead33925e0b",
+      "cells": 159,
+      "mouse_id": "512458",
+      "normal_windows": 2171,
+      "omission_windows": 156,
+      "ophys_experiment_id": 1037804399,
+      "provenance": "data/processed/allen_vbo/mouse_512458/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_513630/windows.npz",
+      "arrays_sha256": "e8761fd5b130b23fca32f67716611453e48032d8d3ce0e4716d92a49ba6c1a8a",
+      "cells": 95,
+      "mouse_id": "513630",
+      "normal_windows": 2285,
+      "omission_windows": 166,
+      "ophys_experiment_id": 1038382394,
+      "provenance": "data/processed/allen_vbo/mouse_513630/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_533161/windows.npz",
+      "arrays_sha256": "d9325c6a0c654f4a5c52d75e050dfd462ce6a351f8d4d8329c18f45b20db7ee7",
+      "cells": 87,
+      "mouse_id": "533161",
+      "normal_windows": 1849,
+      "omission_windows": 147,
+      "ophys_experiment_id": 1047025008,
+      "provenance": "data/processed/allen_vbo/mouse_533161/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_533162/windows.npz",
+      "arrays_sha256": "24c2466870da9b165d66208e5c6f4827be51c70d48109b271eb1c555622d0b14",
+      "cells": 108,
+      "mouse_id": "533162",
+      "normal_windows": 2653,
+      "omission_windows": 147,
+      "ophys_experiment_id": 1049332782,
+      "provenance": "data/processed/allen_vbo/mouse_533162/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_539517/windows.npz",
+      "arrays_sha256": "377bfbea07537db851d13f0ad9bb4d7d5fd1fc8c56d5c6a6f17e2f34785d3cca",
+      "cells": 143,
+      "mouse_id": "539517",
+      "normal_windows": 2509,
+      "omission_windows": 138,
+      "ophys_experiment_id": 1056150752,
+      "provenance": "data/processed/allen_vbo/mouse_539517/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_547266/windows.npz",
+      "arrays_sha256": "824d14a29d20e355f4913a23857203d9014e497ea6c7266545efbddef9ae6e63",
+      "cells": 231,
+      "mouse_id": "547266",
+      "normal_windows": 2095,
+      "omission_windows": 161,
+      "ophys_experiment_id": 1084326126,
+      "provenance": "data/processed/allen_vbo/mouse_547266/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_547486/windows.npz",
+      "arrays_sha256": "8b358c2d6754155238eba0465097c4331ba110066b1890e833c62e0d22304bea",
+      "cells": 247,
+      "mouse_id": "547486",
+      "normal_windows": 1487,
+      "omission_windows": 150,
+      "ophys_experiment_id": 1085840397,
+      "provenance": "data/processed/allen_vbo/mouse_547486/provenance.json"
+    },
+    {
+      "arrays": "data/processed/allen_vbo/mouse_548950/windows.npz",
+      "arrays_sha256": "a7d5dc14ac360026bc5287d41d462274a35e49eceeb0c25d9073a0c35d14e0a5",
+      "cells": 69,
+      "mouse_id": "548950",
+      "normal_windows": 1685,
+      "omission_windows": 161,
+      "ophys_experiment_id": 1076149193,
+      "provenance": "data/processed/allen_vbo/mouse_548950/provenance.json"
+    }
+  ],
+  "cohort_manifest": "data/manifests/allen_vbo_slc17a7_visp175_familiar_active_v1.1.0.json",
+  "release": "1.1.0",
+  "schema": "cadence-allen-vbo-processed-index-v1",
+  "source_content_commitment": {
+    "algorithm": "sha256-canonical-json-v1",
+    "files_per_mouse": [
+      "stimulus_presentations.parquet",
+      "window_index.parquet",
+      "windows.npz"
+    ],
+    "sha256": "9da3e04515a11b413e8784a7077d625933a6f12dd38273ac290a3db90eab7a2f"
+  },
+  "total_cells": 6768,
+  "total_normal_windows": 65522,
+  "total_omission_windows": 4707
+}

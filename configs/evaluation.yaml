@@ -1,0 +1,111 @@
+# DEPRECATED DOCUMENTATION SNAPSHOT.
+# This file is not loaded by any runner and is not a canonical execution
+# contract. Locked Allen and ICMS optimization contracts are constructed and
+# attested by their dataset-specific runners.
+status: deprecated_noncanonical
+
+protocol:
+  version: "1.0.0"
+  freeze_date: "2026-07-25"
+  seed: 20260725
+  equal_animal_weight: true
+  prediction_bundle_hash: sha256
+
+allen:
+  role: primary_sensory_intervention
+  manifest: data/manifests/allen_vbo_slc17a7_visp175_familiar_active_v1.1.0.json
+  processed_root: data/processed/allen_vbo
+  outer_folds: 5
+  development_animals: ["539517", "448900", "484631", "423606"]
+  evaluation_animals:
+    - "450471"
+    - "425496"
+    - "547266"
+    - "484627"
+    - "456915"
+    - "491060"
+    - "476067"
+    - "479426"
+    - "457766"
+    - "548950"
+    - "456564"
+    - "447663"
+    - "547486"
+    - "459773"
+    - "477052"
+    - "442709"
+    - "456916"
+    - "459777"
+    - "453911"
+    - "453913"
+    - "513630"
+    - "449441"
+    - "512458"
+    - "472271"
+    - "533162"
+    - "533161"
+    - "461946"
+    - "431023"
+  locked_requires_acknowledgement: true
+  normal_support_fraction: 0.70
+  normal_validation_fraction: 0.15
+  normal_audit_fraction: 0.15
+  adapter_normal_windows: 160
+  effect_control_pool: all_remaining_eligible_normals
+  onset_s: 0.0
+  score_stop_s: 2.0
+  intervention_duration_s: 0.25
+  primary_neural: event_rate
+  primary_behavior: [running_speed_cm_per_s]
+  secondary_behavior: [pupil_area, lick_rate_hz]
+  effect_matching: [preceding_image, flashes_since_change]
+  flashes_since_change_bins: [[1, 1], [2, 2], [3, 4], [5, 8], [9, null]]
+
+icms:
+  role: exploratory_direct_intervention
+  manifest: configs/dandi_001868_assets.json
+  processed_root: data/processed/dandi_001868
+  animals: [ICMS83, ICMS92, ICMS93, ICMS98, ICMS100, ICMS101]
+  outer_scheme: leave_one_animal_out
+  validation_offset: 1
+  onset_s: 0.0
+  score_stop_s: 3.0
+  primary_neural: accepted_sorted_spike_rate
+  primary_behavior: [wheel_displacement, wheel_velocity]
+  retained_not_evaluated_neural: masked_volumetric_calcium
+  observed_positive_current_range_uA: [1.0, 13.0]
+  current_encoding: continuous_physical_uA
+  primary_frequency_hz: 100.0
+  primary_pulse_count: 70
+  primary_pulse_width_us: 167.0
+  noncanonical_train_policy: out_of_scope_not_scored
+  effect_strata: [session_id, trial_block, electrode_physical_coordinate, current_uA]
+  artifact_robust_exclusion_s: [-0.002, 0.705]
+  normal_sources: [zero_current_catch, guarded_intertrial_interval]
+  iti_guard_s: 2.0
+  iti_windows_per_session: 40
+  randomized_effect_animals: [ICMS92, ICMS93, ICMS98, ICMS100, ICMS101]
+  catch_free_absolute_only_animal: ICMS83
+
+model:
+  latent_dim: 12
+  hidden_dim: 96
+  animal_residual_rank: 2
+  intervention_rank:
+    teacher: 2
+    allen: 2
+    icms: 4
+  dt:
+    teacher: 0.05
+    allen: 0.1
+    icms: 0.03333333333333333
+  normal_beta_dynamics: 1.0
+  normal_beta_kl: 0.0001
+  normal_beta_residual: 0.001
+  donor_delta_shrinkage: 0.01
+
+headline_gate:
+  confidence: 0.95
+  minimum_skill: 0.0
+  minimum_gain_over_all_eligible_nonoracle_envelope: 0.10
+  simultaneous_coverage_lower_bound: 0.80

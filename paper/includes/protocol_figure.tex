@@ -1,0 +1,48 @@
+\begin{figure*}[t]
+  \centering
+  \setlength{\fboxsep}{4pt}
+  \begin{tabular}{@{}c@{\hspace{2pt}}c@{\hspace{2pt}}c@{\hspace{2pt}}c
+                    @{\hspace{2pt}}c@{\hspace{2pt}}c@{\hspace{2pt}}c
+                    @{\hspace{2pt}}c@{\hspace{2pt}}c@{}}
+    \fcolorbox{MidnightBlue}{MidnightBlue!5}{%
+      \parbox[c][3.25cm][c]{0.13\textwidth}{\centering\scriptsize
+      \textbf{1. Normal donors}\\[2pt]
+      Fit shared flow \(F\), donor maps \(H_i\), behavior readout, and
+      rank-two \(R_i\).}}
+    &
+    \(\boldsymbol{\longrightarrow}\)
+    &
+    \fcolorbox{MidnightBlue}{MidnightBlue!5}{%
+      \parbox[c][3.25cm][c]{0.13\textwidth}{\centering\scriptsize
+      \textbf{2. Donor interventions}\\[2pt]
+      Freeze normal components; fit shared \(G\) and shrunk donor residuals.}}
+    &
+    \(\boldsymbol{\longrightarrow}\)
+    &
+    \fcolorbox{ForestGreen}{ForestGreen!6}{%
+      \parbox[c][3.25cm][c]{0.13\textwidth}{\centering\scriptsize
+      \textbf{3. New animal}\\[2pt]
+      Fit its adapter using only \texttt{normal\_fit}; select on
+      \texttt{normal\_val}.}}
+    &
+    \(\boldsymbol{\longrightarrow}\)
+    &
+    \fcolorbox{ForestGreen}{ForestGreen!6}{%
+      \parbox[c][3.25cm][c]{0.13\textwidth}{\centering\scriptsize
+      \textbf{4. Predict and hash}\\[2pt]
+      Use the allowed dataset-specific initialization; persist SHA-256 before
+      outcomes open.}}
+    &
+    \(\boldsymbol{\longrightarrow}\)
+    &
+    \fcolorbox{BurntOrange}{BurntOrange!7}{%
+      \parbox[c][3.25cm][c]{0.13\textwidth}{\centering\scriptsize
+      \textbf{5. Unseal once}\\[2pt]
+      Verify hashes, mount post-onset outcomes, score all channels, and report
+      the conjunction.}}
+  \end{tabular}
+  \caption{\textbf{The information boundary is part of the estimand.}
+  Target-animal intervention outcomes cannot affect preprocessing, adaptation,
+  early stopping, uncertainty calibration, or method selection.}
+  \label{fig:protocol}
+\end{figure*}

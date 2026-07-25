@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cadence-neuro"
+version = "0.1.0"
+description = "Leakage-safe cross-animal prediction of time-resolved perturbation responses"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "Aarav Sinha" }]
+dependencies = [
+  "h5py==3.14.0",
+  "matplotlib==3.10.3",
+  "numpy==2.2.6",
+  "pandas==2.3.0",
+  "pyarrow==20.0.0",
+  "pynwb==3.1.2",
+  "pyyaml==6.0.2",
+  "scikit-learn==1.7.0",
+  "scipy==1.15.3",
+  "seaborn==0.13.2",
+  "statsmodels==0.14.4",
+  "torch==2.7.1",
+  "tqdm==4.67.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==8.4.1",
+  "pytest-cov==6.2.1",
+  "ruff==0.12.1",
+]
+
+[project.scripts]
+cadence = "cadence.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cadence"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true

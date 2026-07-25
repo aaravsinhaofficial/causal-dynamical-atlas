@@ -1,0 +1,37 @@
+\begin{table}[t]
+  \centering
+  \caption{\textbf{Frozen evaluation resources.} Counts describe the
+  prespecified inputs, not model performance. Sessions, trials, and cells are
+  repeated measurements. Animals are the biological replication units; in the
+  teacher benchmark, four targets are averaged within each independently
+  generated world and the world is the inferential unit.}
+  \label{tab:datasets}
+  \small
+  \begin{tabularx}{\linewidth}{@{}
+    >{\raggedright\arraybackslash}p{0.19\linewidth}
+    >{\raggedright\arraybackslash}p{0.23\linewidth}
+    >{\raggedright\arraybackslash}X@{}}
+    \toprule
+    Resource & Independent units & Frozen scope \\
+    \midrule
+    Teacher RNN
+      & 10 development and 20 public-seed procedural evaluation worlds;
+        4 nested targets per world
+      & Known nonlinear dynamics, six intervention channels, variable
+        64--128-neuron maps, paired counterfactual twins, and an explicit
+        non-identifiability pair. Internal \code{locked} label is retained
+        only for schema compatibility. \\
+    Allen Visual Behavior Ophys 1.1.0
+      & 32 mice: 4 development and 28 locked evaluation mice
+      & VISp, Slc17a7-IRES2-Cre, 175~\(\mu\)m, familiar active sessions;
+        6,768 cells, 65,522 clean normal windows, and 4,707 eligible omission
+        windows. \\
+    DANDI:001868 v0.260715.2016
+      & 6 task mice; randomized causal contrast in 5
+      & 45 trimodal source sessions (v1 scores spikes and wheel); 14,734
+        canonical 100-Hz, 70-pulse trials;
+        1,400 randomized catches and 932 signal-blind guarded-ITI calibration
+        windows. ICMS83 is absolute-trajectory-only. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}

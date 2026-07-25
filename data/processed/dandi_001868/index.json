@@ -1,0 +1,96 @@
+{
+  "schema": "cadence-dandi-001868-index-v1",
+  "dandiset_id": "001868",
+  "dandiset_version": "0.260715.2016",
+  "split_unit": "animal_id",
+  "config": {
+    "sample_rate_hz": 30.0,
+    "window_start_s": -1.0,
+    "window_stop_s": 3.0,
+    "calcium_max_gap_s": 0.75,
+    "wheel_max_gap_s": 0.05,
+    "ephys_artifact_start_s": -0.002,
+    "ephys_artifact_stop_s": 0.705,
+    "event_onset_tolerance_s": 0.3,
+    "include_iti_calibration": true,
+    "iti_guard_s": 2.0,
+    "iti_windows_per_session": 40,
+    "good_trials_only": true,
+    "hdf5_compression_level": 4
+  },
+  "totals": {
+    "sessions": 45,
+    "normal_calibration_trials": 2332,
+    "catch_normal_calibration_trials": 1400,
+    "iti_calibration_windows": 932,
+    "stimulation_trials": 16640
+  },
+  "animals": [
+    {
+      "animal_id": "ICMS100",
+      "sessions": 4,
+      "normal_calibration_trials": 202,
+      "catch_normal_calibration_trials": 132,
+      "iti_calibration_windows": 70,
+      "stimulation_trials": 1188,
+      "output": "data/processed/dandi_001868/sub-ICMS100.h5",
+      "output_sha256": "c9672a96c5209e5102a3608a80dca7b1990cf706a7ebd8a50e36c5075d87a4ed",
+      "provenance": "data/processed/dandi_001868/sub-ICMS100.provenance.json"
+    },
+    {
+      "animal_id": "ICMS101",
+      "sessions": 6,
+      "normal_calibration_trials": 343,
+      "catch_normal_calibration_trials": 193,
+      "iti_calibration_windows": 150,
+      "stimulation_trials": 1882,
+      "output": "data/processed/dandi_001868/sub-ICMS101.h5",
+      "output_sha256": "6fe7cd57fb6a9a3e3895f1f4fe19c22ea84215874e83ecc1e578567b134dfada",
+      "provenance": "data/processed/dandi_001868/sub-ICMS101.provenance.json"
+    },
+    {
+      "animal_id": "ICMS83",
+      "sessions": 9,
+      "normal_calibration_trials": 357,
+      "catch_normal_calibration_trials": 0,
+      "iti_calibration_windows": 357,
+      "stimulation_trials": 3365,
+      "output": "data/processed/dandi_001868/sub-ICMS83.h5",
+      "output_sha256": "1d637c237c741b5b80db72e7cba5f59877a9a15519af6756bb839bbd5f62771b",
+      "provenance": "data/processed/dandi_001868/sub-ICMS83.provenance.json"
+    },
+    {
+      "animal_id": "ICMS92",
+      "sessions": 9,
+      "normal_calibration_trials": 491,
+      "catch_normal_calibration_trials": 412,
+      "iti_calibration_windows": 79,
+      "stimulation_trials": 3879,
+      "output": "data/processed/dandi_001868/sub-ICMS92.h5",
+      "output_sha256": "d203fd7c7f22cc2b133fd67473a176ab30dab67f79139b9f5fb9fd149ca6fdf6",
+      "provenance": "data/processed/dandi_001868/sub-ICMS92.provenance.json"
+    },
+    {
+      "animal_id": "ICMS93",
+      "sessions": 10,
+      "normal_calibration_trials": 575,
+      "catch_normal_calibration_trials": 405,
+      "iti_calibration_windows": 170,
+      "stimulation_trials": 3816,
+      "output": "data/processed/dandi_001868/sub-ICMS93.h5",
+      "output_sha256": "d7bfe2ad7d71f44a1d287913285b40539c53c3452cafbba32fd52658b9d3620e",
+      "provenance": "data/processed/dandi_001868/sub-ICMS93.provenance.json"
+    },
+    {
+      "animal_id": "ICMS98",
+      "sessions": 7,
+      "normal_calibration_trials": 364,
+      "catch_normal_calibration_trials": 258,
+      "iti_calibration_windows": 106,
+      "stimulation_trials": 2510,
+      "output": "data/processed/dandi_001868/sub-ICMS98.h5",
+      "output_sha256": "6ddd9f5dcddb08c8f528da3f1806e61792180151da96735c96bd9bd80836e435",
+      "provenance": "data/processed/dandi_001868/sub-ICMS98.provenance.json"
+    }
+  ]
+}

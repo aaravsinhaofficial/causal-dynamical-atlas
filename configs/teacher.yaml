@@ -1,0 +1,92 @@
+# CADENCE teacher-RNN benchmark, frozen main procedural regime.
+#
+# Development worlds are for method iteration. The historically named "locked"
+# seeds below are intentionally public and define a deterministic post-freeze audit,
+# not a prospectively secret or blinded test. They are ineligible for the biological
+# headline conjunction. Random streams are addressed, so stress-grid changes preserve
+# unrelated animals/trials.
+release_name: cadence-teacher-rnn-v1
+
+cohort:
+  train_donors: 10
+  validation_donors: 2
+  targets: 4
+
+dynamics:
+  latent_dim: 8
+  task_input_dim: 4
+  dt: 0.05
+  shared_operator_norm: 0.55
+  residual_rank: 2
+  residual_ratio: 0.10
+  process_noise_std: 0.025
+  task_input_scale: 0.70
+
+intervention:
+  n_interventions: 6
+  onset_step: 40
+  offset_step: 60
+  # Add 0.5 for the optional preregistered two-dose experiment.
+  doses: [1.0]
+  shared_bias_norm: 0.60
+  shared_state_norm: 0.20
+  state_rank: 2
+  animal_residual_ratio: 0.05
+
+observations:
+  neurons_min: 64
+  neurons_max: 128
+  behavior_dim: 3
+  neural_bias_mean: 1.0
+  neural_bias_std: 0.25
+  neural_map_scale: 0.75
+  neural_noise_model: negative_binomial
+  # NB2 size/theta: Var[y|mu] = mu + mu^2 / 20.
+  nb_dispersion: 20.0
+  behavior_noise_std: 0.04
+  behavior_residual_ratio: 0.10
+
+trials:
+  steps: 100
+  donor_normal_trials: 96
+  donor_pairs_per_intervention: 32
+  target_normal_fit_trials: 64
+  target_normal_val_trials: 16
+  target_normal_audit_trials: 32
+  target_pairs_per_intervention: 24
+
+seeds:
+  # Ten method-development worlds.
+  development:
+    - 2026072501
+    - 2026072502
+    - 2026072503
+    - 2026072504
+    - 2026072505
+    - 2026072506
+    - 2026072507
+    - 2026072508
+    - 2026072509
+    - 2026072510
+  # Twenty public, predeclared post-freeze procedural-audit worlds.
+  locked:
+    - 731942001
+    - 731942019
+    - 731942043
+    - 731942087
+    - 731942123
+    - 731942161
+    - 731942207
+    - 731942249
+    - 731942291
+    - 731942339
+    - 731942381
+    - 731942423
+    - 731942477
+    - 731942519
+    - 731942563
+    - 731942611
+    - 731942653
+    - 731942699
+    - 731942741
+    - 731942789

@@ -1,0 +1,9 @@
+{
+  "artifacts": {
+    "development_diagnostics.pdf": "af1da4c07e9b85246c69eed62c55f6f77120e03686ada0217dcb082dc54effa9",
+    "development_diagnostics.png": "8b989a196efc88831b6379cdef9d0ad9d6160df4908070f75a7c684a0eaa8d27",
+    "development_metrics_long.csv": "d67db3f8ff7fd1a4b3a7be264727dc7aecce39d08e42060f503cfe5613756233",
+    "development_record.json": "ceda3d8fad663679223665fbed63ea277b43904ece9be1b29a24695d0155481e"
+  },
+  "schema": "cadence-development-release-completion-v1"
+}

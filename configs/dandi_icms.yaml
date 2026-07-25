@@ -1,0 +1,44 @@
+dataset:
+  dandiset_id: "001868"
+  version: "0.260715.2016"
+  license: "CC-BY-4.0"
+  task_mice: [ICMS83, ICMS92, ICMS93, ICMS98, ICMS100, ICMS101]
+  split_unit: animal_id
+  raw_root: data/raw/dandi_001868
+  processed_root: data/processed/dandi_001868
+  frozen_manifest: configs/dandi_001868_assets.json
+
+preprocessing:
+  sample_rate_hz: 30.0
+  window_start_s: -1.0
+  window_stop_s: 3.0
+  calcium_max_gap_s: 0.75
+  wheel_max_gap_s: 0.05
+  # ICMS uses a 700 ms, 100 Hz pulse train. Mask every spike bin that
+  # intersects the train plus a prespecified 2 ms pre/5 ms post margin.
+  ephys_artifact_start_s: -0.002
+  ephys_artifact_stop_s: 0.705
+  # Actual electrical_stimulation onset is the alignment anchor. Trial-table
+  # start precedes it by up to 270.267 ms in ICMS101, so the trial/event join
+  # permits 300 ms while still requiring exact trial index/current/channel.
+  event_onset_tolerance_s: 0.30
+  # Catch-free ICMS83 is calibrated from continuous normal activity. ITI
+  # windows are centered wholly between guarded trial/event intervals, selected
+  # without reading signal values, and capped deterministically per session.
+  include_iti_calibration: true
+  # The entire four-second window is additionally separated from both adjacent
+  # blocked intervals by two seconds to suppress post-ICMS carryover and
+  # pre-trial preparation.
+  iti_guard_s: 2.0
+  iti_windows_per_session: 40
+  good_trials_only: true
+  hdf5_compression_level: 4
+
+calibration_seal:
+  require_current_uA_exactly_zero: true
+  reject_any_event_overlap_with_full_window: true
+  iti_windows_must_avoid_all_trials_and_events: true
+  iti_selection_uses_signal_values: false
+  iti_windows_per_session: 40
+  fit_shared_dynamics_on_test_animal: false
+  descriptor_uses_raw_channel_identity: false

@@ -1,0 +1,91 @@
+schema: cadence-allen-vbo-experiment-v1
+
+sequestration:
+  seed: 20260725
+  development_hash: sha256(mouse_id + "20260725")
+  development_mice: ["539517", "448900", "484631", "423606"]
+  locked_mice: remaining_28
+  locked_outer_folds: 5
+  locked_run_seeds: [0]
+  locked_acknowledgement_required: true
+  locked_stages: [prepare, predict, score]
+  single_process_locked_run: forbidden
+
+normal_support:
+  adapter_windows_per_mouse: 160
+  selection: signal_blind_hash_of_presentation_id
+  partitions:
+    fit: 112
+    validation: 24
+    audit: 24
+  matching_pool: all_remaining_clean_normal_windows
+  preprocessing_fit_partition: fit_only
+
+query:
+  window_s: [0.0, 2.0]
+  initialization: final_pre_onset_sample
+  scheduled_input_channels: eight_image_identities
+  omission_action_channels: 1
+  onset_transition_index: onset_minus_1
+  causal_control_match:
+    priority: [preceding_image, flashes_since_change]
+    flashes_since_change_bins: [[1, 1], [2, 2], [3, 4], [5, 8], [9, null]]
+    controls_per_query: 3
+  target_post_onset_inputs: forbidden
+  prediction_hash_before_score: sha256
+  physical_artifacts:
+    normal: normal_support.npz
+    query: omission_query.npz
+    sealed: sealed_omission_outcomes.npz
+  missingness_inputs:
+    neural_valid_channels: explicit
+    behavior_valid_channels: explicit
+    auxiliary_reconstruction_weight: 0.0
+
+model:
+  intervention_rank: 2
+  animal_residual_rank: 2
+  behavior_channels:
+    primary: [running_speed_cm_per_s]
+    secondary: [pupil_area, lick_rate_hz]
+  learned_methods: [proposed, linear, additive, black_box]
+  nonparametric_methods:
+    [functional_atlas, no_effect, condition_time, nearest_donor]
+  ablations:
+    proposed_no_residual: enabled
+    proposed_no_target_adaptation: enabled
+    pooled: unavailable_heterogeneous_observation_dimensions
+
+scoring:
+  primary:
+    estimand: expected_causal_effect
+    strata: [preceding_image, flashes_since_change_bin, control_fallback_level]
+    stratum_weighting: equal
+  secondary:
+    estimand: pooled_trial_level_causal_skill
+
+profiles:
+  smoke:
+    latent_dim: 4
+    hidden_dim: 24
+    normal_epochs: 10
+    intervention_epochs: 12
+    target_epochs: 10
+    maximum_normal_fit_windows: 48
+    maximum_omission_queries: 48
+  fast:
+    latent_dim: 8
+    hidden_dim: 48
+    normal_epochs: 24
+    intervention_epochs: 30
+    target_epochs: 24
+    maximum_normal_fit_windows: 96
+    maximum_omission_queries: 96
+  full:
+    latent_dim: 12
+    hidden_dim: 96
+    normal_epochs: 500
+    intervention_epochs: 500
+    target_epochs: 400
+    maximum_normal_fit_windows: null
+    maximum_omission_queries: null

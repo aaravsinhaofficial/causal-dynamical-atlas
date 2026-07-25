@@ -1,0 +1,42 @@
+# Deprecated, noncanonical reference configuration. Locked Allen runs use
+# configs/allen_experiment.yaml and require canonical run seed 0.
+dataset:
+  name: allen_visual_behavior_ophys
+  release: "1.1.0"
+  bucket: s3://visual-behavior-ophys-data/visual-behavior-ophys
+  intervention: image_omission
+  cohort:
+    targeted_structure: VISp
+    cre_line: Slc17a7-IRES2-Cre
+    imaging_depth_um: 175
+    experience_level: Familiar
+    passive: false
+    preferred_session_number: 1
+    minimum_cells: 40
+  sampling:
+    rate_hz: 10.0
+    window_start_s: -1.0
+    window_end_s: 2.0
+    normal_match_exclusion_s: 3.0
+    minimum_omissions: 80
+    normal_calibration_trials: 160
+
+split:
+  unit: mouse_id
+  outer_folds: 5
+  seed: 20260725
+  seal_intervention_trials_for_test_animals: true
+
+model:
+  latent_dim: 12
+  hidden_dim: 96
+  behavior_channels: [running_speed, pupil_area, lick_rate]
+  animal_residual_rank: 2
+
+training:
+  seeds: [0]
+  max_epochs: 500
+  patience: 40
+  batch_size: 64
+  learning_rate: 0.001
+  weight_decay: 0.0001
