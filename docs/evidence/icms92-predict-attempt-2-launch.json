@@ -1,0 +1,70 @@
+{
+  "schema": "cadence.execution_launch_evidence.v1",
+  "recorded_at": "2026-07-25T16:27:00Z",
+  "attempt": {
+    "attempt_number": 2,
+    "stage": "PREDICT",
+    "target": "ICMS92",
+    "command": [
+      "uv",
+      "run",
+      "python",
+      "scripts/run_icms_experiment.py",
+      "predict",
+      "--output",
+      "results/icms/loao-ICMS92",
+      "--optimization",
+      "full",
+      "--device",
+      "cuda:1",
+      "--seed",
+      "20260725",
+      "--methods",
+      "proposed",
+      "linear",
+      "additive",
+      "black_box",
+      "zero_effect",
+      "condition_time",
+      "nearest_donor",
+      "--acknowledge-donor-outcomes"
+    ],
+    "configured_logical_device": "cuda:1",
+    "physical_gpu_uuid": "GPU-4572b5e5-7e42-f866-c105-27fdf5f04c84",
+    "launch_log": {
+      "path": "results/run-logs/icms92-predict-attempt-2.log",
+      "initial_size_bytes": 0,
+      "initial_mtime": "2026-07-25T16:04:35.506220072Z",
+      "started_at_seconds": "2026-07-25T16:04:35Z",
+      "time_basis": "EMPTY_ATTEMPT_LOG_INITIAL_MTIME_CAPTURED_AT_LAUNCH"
+    },
+    "process_observation": {
+      "uv_pid": 171967,
+      "worker_pid": 172000,
+      "session_id": 171967,
+      "worker_parent_pid": 171967
+    }
+  },
+  "frozen_boundary": {
+    "tag": "pre-outcome-v1.0.0",
+    "commit": "25465767879c36aaa5b8a7a24ddca3448d191d97",
+    "tag_object": "119854cec77d72ae0e90ea9b7fbbff94e3652af2",
+    "configuration_sha256": "0c6e8b46f16e9f2da4ad442f042e325586bed490b93a56a4d63274fd78875ff8"
+  },
+  "prelaunch_audit": {
+    "recovery_record_commit": "33153fd1cebd727211b81853370c7c0435ef6f54",
+    "recovery_record_was_public": true,
+    "tagged_worktree_clean": true,
+    "gpu_exclusive": true,
+    "target_mode": "0000",
+    "target_device": 66305,
+    "target_inode": 933846027,
+    "target_size_bytes": 82907570,
+    "registry_matches_fold_seal": true,
+    "target_seal_sha256": "82ec9a0c8aef0254c2adc9725fd5b269dd86f176e1c6df5924404204f83c4e12"
+  },
+  "outcome_handling": {
+    "target_outcomes_opened_before_launch": false,
+    "scientific_outcomes_used_for_retry_decision": false
+  }
+}
