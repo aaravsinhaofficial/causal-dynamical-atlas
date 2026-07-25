@@ -507,10 +507,7 @@ def test_builder_labels_partial_cohort_and_withholds_gate_linked_summaries(
     site = json.loads(paths["site"].read_text(encoding="utf-8"))
     by_id = {dataset["id"]: dataset for dataset in site["datasets"]}
     allen = by_id["allen"]
-    expected_label = (
-        "1 observed of 28; incomplete; gates NOT_EVALUATED; "
-        "independent target animal"
-    )
+    expected_label = "1 observed of 28; incomplete; gates NOT_EVALUATED; independent target animal"
     assert allen["status"] == "NOT_EVALUATED"
     assert allen["replication"] == expected_label
     assert expected_label in allen["summary"]
@@ -602,12 +599,10 @@ def test_partial_figure_labels_use_reporter_expected_denominator(
     builder.render_gate_matrix_figure(report, tmp_path)
 
     assert any(
-        "1 observed of 28\nincomplete; gates NOT_EVALUATED" in label
-        for label in observed_labels
+        "1 observed of 28\nincomplete; gates NOT_EVALUATED" in label for label in observed_labels
     )
     assert any(
-        "1 observed of 28; incomplete; gates NOT_EVALUATED" in label
-        for label in observed_labels
+        "1 observed of 28; incomplete; gates NOT_EVALUATED" in label for label in observed_labels
     )
 
 
@@ -813,21 +808,19 @@ def test_builder_fails_closed_on_sidecar_and_completion_digest_mismatches(
             "gate-evaluable but lacks",
         ),
         (
-            lambda summary: summary["analyses"]["allen_vbo:locked"].update(
-                {"expected_n": 1}
-            ),
+            lambda summary: summary["analyses"]["allen_vbo:locked"].update({"expected_n": 1}),
             "only 1 expected",
         ),
         (
-            lambda summary: summary["analyses"]["allen_vbo:locked"][
-                "cohort_completeness"
-            ].update({"expected_units": 3}),
+            lambda summary: summary["analyses"]["allen_vbo:locked"]["cohort_completeness"].update(
+                {"expected_units": 3}
+            ),
             "does not match expected_n",
         ),
         (
-            lambda summary: _with_partial_allen(summary)["analyses"][
-                "allen_vbo:locked"
-            ]["conjunction"].update({"overall_status": "FAIL"}),
+            lambda summary: _with_partial_allen(summary)["analyses"]["allen_vbo:locked"][
+                "conjunction"
+            ].update({"overall_status": "FAIL"}),
             "not uniformly NOT_EVALUATED",
         ),
     ],

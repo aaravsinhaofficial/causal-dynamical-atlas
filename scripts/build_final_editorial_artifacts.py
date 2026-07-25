@@ -388,9 +388,7 @@ def _validate_analysis(analysis_value: Any, spec: AnalysisSpec) -> None:
             f"{observed} observed units but {expected} expected"
         )
     if not completeness["complete"] and completeness["gates_evaluable"]:
-        raise ValueError(
-            f"{spec.analysis_id} is incomplete but declares gates_evaluable=true"
-        )
+        raise ValueError(f"{spec.analysis_id} is incomplete but declares gates_evaluable=true")
 
     _validate_method_summaries(
         analysis.get("method_summaries"),
@@ -500,8 +498,7 @@ def _cohort_unit_counts(
 
     if completeness_expected is None and expected_n is None:
         raise ValueError(
-            f"{analysis_id} must provide cohort_completeness.expected_units "
-            "or expected_n"
+            f"{analysis_id} must provide cohort_completeness.expected_units or expected_n"
         )
     if (
         completeness_expected is not None
@@ -511,13 +508,10 @@ def _cohort_unit_counts(
         raise ValueError(
             f"{analysis_id}.cohort_completeness.expected_units does not match expected_n"
         )
-    expected = (
-        completeness_expected if completeness_expected is not None else int(expected_n)
-    )
+    expected = completeness_expected if completeness_expected is not None else int(expected_n)
     if expected < observed:
         raise ValueError(
-            f"{analysis_id} has {observed} observed independent units but "
-            f"only {expected} expected"
+            f"{analysis_id} has {observed} observed independent units but only {expected} expected"
         )
     return observed, expected
 
@@ -597,17 +591,11 @@ def _replication_text(analysis: Mapping[str, Any], spec: AnalysisSpec) -> str:
     independent, expected = _cohort_unit_counts(analysis, spec.analysis_id)
     nested = int(analysis["n_nested_target_units"])
     if _editorial_incomplete(analysis, spec.analysis_id):
-        prefix = (
-            f"{independent} observed of {expected}; incomplete; "
-            "gates NOT_EVALUATED"
-        )
+        prefix = f"{independent} observed of {expected}; incomplete; gates NOT_EVALUATED"
         if spec.replication_unit == "teacher_world":
             world_word = "world" if independent == 1 else "worlds"
             target_word = "target unit" if nested == 1 else "target units"
-            return (
-                f"{prefix}; independent teacher {world_word}; "
-                f"{nested} nested {target_word}"
-            )
+            return f"{prefix}; independent teacher {world_word}; {nested} nested {target_word}"
         animal_word = "animal" if independent == 1 else "animals"
         return f"{prefix}; independent target {animal_word}"
     if spec.replication_unit == "teacher_world":
@@ -893,9 +881,7 @@ def render_unit_skill_figure(report: Mapping[str, Any], directory: Path) -> None
             values = _independent_skill_values(analysis, analysis_id, domain)
             values_by_panel[(analysis_id, domain)] = values
             limits.extend(value for _, value in values)
-            if analysis_id != "teacher:locked" and _cohort_complete(
-                analysis, analysis_id
-            ):
+            if analysis_id != "teacher:locked" and _cohort_complete(analysis, analysis_id):
                 summary = _summary_or_none(analysis, "primary_summaries", f"{domain}_skill")
                 limits.extend(value for value in _summary_triplet(summary) if value is not None)
 
@@ -1065,11 +1051,7 @@ def render_unit_skill_figure(report: Mapping[str, Any], directory: Path) -> None
                 ax.set_xticklabels(
                     [
                         "worlds" if analysis_id == "teacher:locked" else "target animals",
-                        (
-                            "mean + 95% CI"
-                            if analysis_id != "teacher:locked" and complete
-                            else ""
-                        ),
+                        ("mean + 95% CI" if analysis_id != "teacher:locked" and complete else ""),
                     ]
                 )
                 if row_index == 0:
@@ -1143,10 +1125,7 @@ def render_gate_matrix_figure(report: Mapping[str, Any], directory: Path) -> Non
         analysis = _analysis(report, analysis_id)
         observed, expected = _cohort_unit_counts(analysis, analysis_id)
         if _editorial_incomplete(analysis, analysis_id):
-            label = (
-                f"{label} · {observed} observed of {expected}; "
-                "incomplete; gates NOT_EVALUATED"
-            )
+            label = f"{label} · {observed} observed of {expected}; incomplete; gates NOT_EVALUATED"
         row_labels.append(label)
         conjunction = _require_mapping(analysis["conjunction"], f"{analysis_id}.conjunction")
         statuses = [str(_gate(analysis, gate_id)["status"]) for gate_id in GATE_IDS]
